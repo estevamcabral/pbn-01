@@ -48,6 +48,8 @@ Img in, out;
 
 // Protótipos
 void load(char* name, Img* pic);
+void confundir(Pixel* origem, Pixel* destino, int tam);
+void desconfundir(Pixel* origem, Pixel* destino, int tam);
 
 int main(int argc, char* argv[]) {
   if (argc < 2) {
@@ -80,20 +82,32 @@ int main(int argc, char* argv[]) {
   // Aplica o algoritmo em pin e gera a saida em pout
   // ...
   //
-  // Exemplo: inverte as cores
-  for (int i = 0; i < in.height; i++) {
-    for (int j = 0; j < in.width; j++) {
-      pout[i][j].r = 255 - pin[i][j].r;
-      pout[i][j].g = 255 - pin[i][j].g;
-      pout[i][j].b = 255 - pin[i][j].b;
-    }
-  }
+  Pixel* recuperada = malloc(tam * sizeof(Pixel));
 
-  // Grava a imagem como PNG para registro
-  stbi_write_png("saida.png", out.width, out.height, 3, pout, 0);
+  confundir(in.pixels, out.pixels, tam);
+  stbi_write_png("confundida.png", out.width, out.height, 3, out.pixels, 0);
+  desconfundir(out.pixels, recuperada, tam);
+  stbi_write_png("recuperada_confusao.png", out.width, out.height, 3, recuperada, 0);
 
+  free(recuperada);
   free(in.pixels);
   free(out.pixels);
+}
+
+void confundir(Pixel* origem, Pixel* destino, int tam) {
+  for (int i = 0; i < tam; i++) {
+    destino[i].r = origem[i].r + i;
+    destino[i].g = origem[i].g + i;
+    destino[i].b = origem[i].b + i;
+  }
+}
+
+void desconfundir(Pixel* origem, Pixel* destino, int tam) {
+  for (int i = 0; i < tam; i++) {
+    destino[i].r = origem[i].r - i;
+    destino[i].g = origem[i].g - i;
+    destino[i].b = origem[i].b - i;
+  }
 }
 
 void load(char* name, Img* pic) {
