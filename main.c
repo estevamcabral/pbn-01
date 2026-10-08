@@ -50,6 +50,8 @@ Img in, out;
 void load(char* name, Img* pic);
 void confundir(Pixel* origem, Pixel* destino, int tam);
 void desconfundir(Pixel* origem, Pixel* destino, int tam);
+void difundir(Pixel* img, int tam, int numero);
+void desdifundir(Pixel* img, int tam, int numero);
 
 int main(int argc, char* argv[]) {
   if (argc < 2) {
@@ -89,6 +91,12 @@ int main(int argc, char* argv[]) {
   desconfundir(out.pixels, recuperada, tam);
   stbi_write_png("recuperada_confusao.png", out.width, out.height, 3, recuperada, 0);
 
+  int numero = 10003;
+  difundir(in.pixels, tam, numero);
+  stbi_write_png("difundida.png", in.width, in.height, 3, in.pixels, 0);
+  desdifundir(in.pixels, tam, numero);
+  stbi_write_png("recuperada_difusao.png", in.width, in.height, 3, in.pixels, 0);
+
   free(recuperada);
   free(in.pixels);
   free(out.pixels);
@@ -107,6 +115,24 @@ void desconfundir(Pixel* origem, Pixel* destino, int tam) {
     destino[i].r = origem[i].r - i;
     destino[i].g = origem[i].g - i;
     destino[i].b = origem[i].b - i;
+  }
+}
+
+void difundir(Pixel* img, int tam, int numero) {
+  for (long long i = 0; i < tam; i++) {
+    long long j = (i * numero) % tam;
+    Pixel t = img[i];
+    img[i] = img[j];
+    img[j] = t;
+  }
+}
+
+void desdifundir(Pixel* img, int tam, int numero) {
+  for (long long i = tam - 1; i >= 0; i--) {
+    long long j = (i * numero) % tam;
+    Pixel t = img[i];
+    img[i] = img[j];
+    img[j] = t;
   }
 }
 
