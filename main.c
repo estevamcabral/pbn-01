@@ -112,9 +112,9 @@ void confundir(Pixel* origem, Pixel* destino, int tam) {
 
 void desconfundir(Pixel* origem, Pixel* destino, int tam) {
   for (int i = 0; i < tam; i++) {
-    destino[i].r = origem[i].g - i;
-    destino[i].g = origem[i].b - i;
-    destino[i].b = origem[i].r - i;
+    destino[i].r = origem[i].b - i;
+    destino[i].g = origem[i].r - i;
+    destino[i].b = origem[i].g - i;
   }
 }
 
