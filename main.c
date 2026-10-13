@@ -104,17 +104,17 @@ int main(int argc, char* argv[]) {
 
 void confundir(Pixel* origem, Pixel* destino, int tam) {
   for (int i = 0; i < tam; i++) {
-    destino[i].r = origem[i].r + 64 + i % 128;
-    destino[i].g = origem[i].g + 64 + i % 128;
-    destino[i].b = origem[i].b + 64 + i % 128;
+    destino[i].r = origem[i].r + 2 * i + 1;
+    destino[i].g = origem[i].g + 2 * i + 1;
+    destino[i].b = origem[i].b + 2 * i + 1;
   }
 }
 
 void desconfundir(Pixel* origem, Pixel* destino, int tam) {
   for (int i = 0; i < tam; i++) {
-    destino[i].r = origem[i].r - 64 - i % 128;
-    destino[i].g = origem[i].g - 64 - i % 128;
-    destino[i].b = origem[i].b - 64 - i % 128;
+    destino[i].r = origem[i].r - 2 * i - 1;
+    destino[i].g = origem[i].g - 2 * i - 1;
+    destino[i].b = origem[i].b - 2 * i - 1;
   }
 }
 
