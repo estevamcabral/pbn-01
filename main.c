@@ -104,35 +104,43 @@ int main(int argc, char* argv[]) {
 
 void confundir(Pixel* origem, Pixel* destino, int tam) {
   for (int i = 0; i < tam; i++) {
-    destino[i].r = origem[i].g + i;
-    destino[i].g = origem[i].b + i;
-    destino[i].b = origem[i].r + i;
+    Pixel* o = origem + i;
+    Pixel* d = destino + i;
+    d->r = o->g + i;
+    d->g = o->b + i;
+    d->b = o->r + i;
   }
 }
 
 void desconfundir(Pixel* origem, Pixel* destino, int tam) {
   for (int i = 0; i < tam; i++) {
-    destino[i].r = origem[i].b - i;
-    destino[i].g = origem[i].r - i;
-    destino[i].b = origem[i].g - i;
+    Pixel* o = origem + i;
+    Pixel* d = destino + i;
+    d->r = o->b - i;
+    d->g = o->r - i;
+    d->b = o->g - i;
   }
 }
 
 void difundir(Pixel* img, int tam, int numero) {
   for (long long i = 0; i < tam; i++) {
     long long j = (i * numero) % tam;
-    Pixel t = img[i];
-    img[i] = img[j];
-    img[j] = t;
+    Pixel* a = img + i;
+    Pixel* b = img + j;
+    Pixel t = *a;
+    *a = *b;
+    *b = t;
   }
 }
 
 void desdifundir(Pixel* img, int tam, int numero) {
   for (long long i = tam - 1; i >= 0; i--) {
     long long j = (i * numero) % tam;
-    Pixel t = img[i];
-    img[i] = img[j];
-    img[j] = t;
+    Pixel* a = img + i;
+    Pixel* b = img + j;
+    Pixel t = *a;
+    *a = *b;
+    *b = t;
   }
 }
 
